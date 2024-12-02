@@ -14,12 +14,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
+    /*@Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/authentication/login", "/css/**", "/js/**", "/assets/**").permitAll() // Allow access to login and static resources
-                        .anyRequest().authenticated() // Protect all other endpoints
+                        .requestMatchers("/authentication/login", "/css/**", "/js/**", "/assets/**").permitAll() // Allow access to log in and static resources
+                        .anyRequest()
+                        .authenticated() // Protect all other endpoints
                 )
                 .formLogin(form -> form
                         .loginPage("/authentication/login") // Custom login page
@@ -33,6 +34,17 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/authentication/login?logout=true")
                         .permitAll()
                 );
+        return http.build();
+    }*/
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().permitAll() // Allow all requests
+                )
+                .csrf(csrf -> csrf.disable()); // Disable CSRF protection (optional, for testing purposes)
+
         return http.build();
     }
 
@@ -52,5 +64,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
-

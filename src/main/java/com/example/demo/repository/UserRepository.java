@@ -1,7 +1,15 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.generic.BaseRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository  extends JpaRepository<User, Long> {
+import java.util.UUID;
+
+@Repository
+public class UserRepository extends BaseRepository<User, UUID> implements IUserRepository {
+
+    public UserRepository() {
+        super(User.class);
+    }
 }

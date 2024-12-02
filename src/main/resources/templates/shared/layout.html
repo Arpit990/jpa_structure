@@ -1,27 +1,912 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    
     <title>My Application</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
-</head>
-<body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">My App</a>
-    </nav>
-</header>
 
-<div class="container">
-    <section layout:fragment="content">
-        <!-- Default content can go here -->
-        <p>Welcome to my app!</p>
-    </section>
+    <link href="../favicon.ico" rel="shortcut icon">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" th:href="@{/assets/css/vendor.min.css}">
+
+    <!-- CSS Front Template -->
+    <link rel="stylesheet" th:href="@{/assets/css/theme.minc619.css?v=1.0}">
+
+    <link as="style" data-hs-appearance="default" rel="preload" th:href="@{/assets/css/theme.min.css}">
+    <link as="style" data-hs-appearance="dark" rel="preload" th:href="@{/assets/css/theme-dark.min.css}">
+
+    <style data-hs-appearance-onload-styles>
+        *
+        {
+          transition: unset !important;
+        }
+
+        body
+        {
+          opacity: 0;
+        }
+    </style>
+
+    <script>
+        window.hs_config = {"autopath":"@@autopath","deleteLine":"hs-builder:delete","deleteLine:build":"hs-builder:build-delete","deleteLine:dist":"hs-builder:dist-delete","previewMode":false,"startPath":"/index.html","vars":{"themeFont":"https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap","version":"?v=1.0"},"layoutBuilder":{"extend":{"switcherSupport":true},"header":{"layoutMode":"default","containerMode":"container-fluid"},"sidebarLayout":"default"},"themeAppearance":{"layoutSkin":"default","sidebarSkin":"default","styles":{"colors":{"primary":"#377dff","transparent":"transparent","white":"#fff","dark":"132144","gray":{"100":"#f9fafc","900":"#1e2022"}},"font":"Inter"}},"languageDirection":{"lang":"en"},"skipFilesFromBundle":{"dist":["assets/js/hs.theme-appearance.js","assets/js/hs.theme-appearance-charts.html","assets/js/demo.js"],"build":["assets/css/theme.css","assets/vendor/hs-navbar-vertical-aside/dist/hs-navbar-vertical-aside-mini-cache.html","assets/js/demo.html","assets/css/theme-dark.html","assets/css/docs.html","assets/vendor/icon-set/style.html","assets/js/hs.theme-appearance.html","assets/js/hs.theme-appearance-charts.html","node_modules/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.html","assets/js/demo.js"]},"minifyCSSFiles":["assets/css/theme.css","assets/css/theme-dark.css"],"copyDependencies":{"dist":{"*assets/js/theme-custom.js":""},"build":{"*assets/js/theme-custom.js":"","node_modules/bootstrap-icons/font/*fonts/**":"assets/css"}},"buildFolder":"","replacePathsToCDN":{},"directoryNames":{"src":"./src","dist":"./dist","build":"./build"},"fileNames":{"dist":{"js":"theme.min.js","css":"theme.min.css"},"build":{"css":"theme.min.css","js":"theme.min.js","vendorCSS":"vendor.min.css","vendorJS":"vendor.min.js"}},"fileTypes":"jpg|png|svg|mp4|webm|ogv|json"}
+        window.hs_config.gulpRGBA = (p1) => {
+const options = p1.split(',')
+const hex = options[0].toString()
+const transparent = options[1].toString()
+
+var c;
+if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+c= hex.substring(1).split('');
+if(c.length== 3){
+  c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+}
+c= '0x'+c.join('');
+return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',' + transparent + ')';
+}
+throw new Error('Bad Hex');
+}
+        window.hs_config.gulpDarken = (p1) => {
+const options = p1.split(',')
+
+let col = options[0].toString()
+let amt = -parseInt(options[1])
+var usePound = false
+
+if (col[0] == "#") {
+col = col.slice(1)
+usePound = true
+}
+var num = parseInt(col, 16)
+var r = (num >> 16) + amt
+if (r > 255) {
+r = 255
+} else if (r < 0) {
+r = 0
+}
+var b = ((num >> 8) & 0x00FF) + amt
+if (b > 255) {
+b = 255
+} else if (b < 0) {
+b = 0
+}
+var g = (num & 0x0000FF) + amt
+if (g > 255) {
+g = 255
+} else if (g < 0) {
+g = 0
+}
+return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16)
+}
+        window.hs_config.gulpLighten = (p1) => {
+const options = p1.split(',')
+
+let col = options[0].toString()
+let amt = parseInt(options[1])
+var usePound = false
+
+if (col[0] == "#") {
+col = col.slice(1)
+usePound = true
+}
+var num = parseInt(col, 16)
+var r = (num >> 16) + amt
+if (r > 255) {
+r = 255
+} else if (r < 0) {
+r = 0
+}
+var b = ((num >> 8) & 0x00FF) + amt
+if (b > 255) {
+b = 255
+} else if (b < 0) {
+b = 0
+}
+var g = (num & 0x0000FF) + amt
+if (g > 255) {
+g = 255
+} else if (g < 0) {
+g = 0
+}
+return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16)
+}
+    </script>
+</head>
+<body class="has-navbar-vertical-aside navbar-vertical-aside-show-xl">
+
+<script th:src="@{/assets/js/hs.theme-appearance.js}"></script>
+
+<div th:replace="~{shared/header}"></div>
+
+<main class="main" id="content" role="main">
+    <div th:replace="~{shared/menu}"></div>
+
+    <!-- Content -->
+    <div class="content container">
+        <section layout:fragment="content">
+            <!-- Default content can go here -->
+            <p>Welcome to my app!</p>
+        </section>
+    </div>
+
+    <div th:replace="~{shared/footer}"></div>
+</main>
+<!-- ========== END MAIN CONTENT ========== -->
+
+
+<!-- ========== SECONDARY CONTENTS ========== -->
+<!-- Keyboard Shortcuts -->
+<div aria-labelledby="offcanvasKeyboardShortcutsLabel" class="offcanvas offcanvas-end" id="offcanvasKeyboardShortcuts" tabindex="-1">
+    <div class="offcanvas-header">
+        <h4 class="mb-0" id="offcanvasKeyboardShortcutsLabel">Keyboard shortcuts</h4>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="list-group list-group-sm list-group-flush list-group-no-gutters mb-5">
+            <div class="list-group-item">
+                <h5 class="mb-1">Formatting</h5>
+            </div>
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span class="fw-semibold">Bold</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">b</kbd>
+                    </div>
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <em>italic</em>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">i</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <u>Underline</u>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">u</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <s>Strikethrough</s>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Alt</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">s</kbd>
+                        <!-- End Col -->
+                    </div>
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span class="small">Small text</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">s</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <mark>Highlight</mark>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">e</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+        </div>
+
+        <div class="list-group list-group-sm list-group-flush list-group-no-gutters mb-5">
+            <div class="list-group-item">
+                <h5 class="mb-1">Insert</h5>
+            </div>
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Mention person <a href="#">(@Brian)</a></span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">@</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Link to doc <a href="#">(+Meeting notes)</a></span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">+</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <a href="#">#hashtag</a>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">#hashtag</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Date</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">/date</kbd>
+                        <kbd class="d-inline-block mb-1">Space</kbd>
+                        <kbd class="d-inline-block mb-1">/datetime</kbd>
+                        <kbd class="d-inline-block mb-1">/datetime</kbd>
+                        <kbd class="d-inline-block mb-1">Space</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Time</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">/time</kbd>
+                        <kbd class="d-inline-block mb-1">Space</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Note box</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">/note</kbd>
+                        <kbd class="d-inline-block mb-1">Enter</kbd>
+                        <kbd class="d-inline-block mb-1">/note red</kbd>
+                        <kbd class="d-inline-block mb-1">/note red</kbd>
+                        <kbd class="d-inline-block mb-1">Enter</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+        </div>
+
+        <div class="list-group list-group-sm list-group-flush list-group-no-gutters mb-5">
+            <div class="list-group-item">
+                <h5 class="mb-1">Editing</h5>
+            </div>
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Find and replace</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">r</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Find next</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">n</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Find previous</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">p</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Indent</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Tab</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Un-indent</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Shift</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Tab</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Move line up</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Shift</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1"><i class="bi-arrow-up-short"></i></kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Move line down</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Shift</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1"><i class="bi-arrow-down-short fs-5"></i></kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Add a comment</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Alt</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">m</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Undo</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">z</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Redo</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">y</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+        </div>
+
+        <div class="list-group list-group-sm list-group-flush list-group-no-gutters">
+            <div class="list-group-item">
+                <h5 class="mb-1">Application</h5>
+            </div>
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Create new doc</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Alt</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">n</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Present</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Shift</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">p</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Share</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Shift</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">s</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Search docs</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Shift</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">o</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        <span>Keyboard shortcuts</span>
+                    </div>
+                    <!-- End Col -->
+
+                    <div class="col-7 text-end">
+                        <kbd class="d-inline-block mb-1">Ctrl</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">Shift</kbd> <span class="text-muted small">+</span> <kbd class="d-inline-block mb-1">/</kbd>
+                    </div>
+                    <!-- End Col -->
+                </div>
+                <!-- End Row -->
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Keyboard Shortcuts -->
+
+<!-- Activity -->
+<div aria-labelledby="offcanvasActivityStreamLabel" class="offcanvas offcanvas-end" id="offcanvasActivityStream" tabindex="-1">
+    <div class="offcanvas-header">
+        <h4 class="mb-0" id="offcanvasActivityStreamLabel">Activity stream</h4>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="offcanvas" type="button"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Step -->
+        <ul class="step step-icon-sm step-avatar-sm">
+            <!-- Step Item -->
+            <li class="step-item">
+                <div class="step-content-wrapper">
+                    <div class="step-avatar">
+                        <img alt="Image Description" class="step-avatar" src="../assets/img/160x160/img9.jpg">
+                    </div>
+
+                    <div class="step-content">
+                        <h5 class="mb-1">Iana Robinson</h5>
+
+                        <p class="fs-5 mb-1">Added 2 files to task <a class="text-uppercase" href="#"><i class="bi-journal-bookmark-fill"></i> Fd-7</a></p>
+
+                        <ul class="list-group list-group-sm">
+                            <!-- List Item -->
+                            <li class="list-group-item list-group-item-light">
+                                <div class="row gx-1">
+                                    <div class="col-6">
+                                        <!-- Media -->
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <img alt="Image Description" class="avatar avatar-xs" src="../assets/svg/brands/excel-icon.svg">
+                                            </div>
+                                            <div class="flex-grow-1 text-truncate ms-2">
+                                                <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
+                                                <span class="d-block small text-muted">12kb</span>
+                                            </div>
+                                        </div>
+                                        <!-- End Media -->
+                                    </div>
+                                    <!-- End Col -->
+
+                                    <div class="col-6">
+                                        <!-- Media -->
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <img alt="Image Description" class="avatar avatar-xs" src="../assets/svg/brands/word-icon.svg">
+                                            </div>
+                                            <div class="flex-grow-1 text-truncate ms-2">
+                                                <span class="d-block fs-6 text-dark text-truncate" title="weekly-reports.xls">weekly-reports.xls</span>
+                                                <span class="d-block small text-muted">4kb</span>
+                                            </div>
+                                        </div>
+                                        <!-- End Media -->
+                                    </div>
+                                    <!-- End Col -->
+                                </div>
+                                <!-- End Row -->
+                            </li>
+                            <!-- End List Item -->
+                        </ul>
+
+                        <span class="small text-muted text-uppercase">Now</span>
+                    </div>
+                </div>
+            </li>
+            <!-- End Step Item -->
+
+            <!-- Step Item -->
+            <li class="step-item">
+                <div class="step-content-wrapper">
+                    <span class="step-icon step-icon-soft-dark">B</span>
+
+                    <div class="step-content">
+                        <h5 class="mb-1">Bob Dean</h5>
+
+                        <p class="fs-5 mb-1">Marked <a class="text-uppercase" href="#"><i class="bi-journal-bookmark-fill"></i> Fr-6</a> as <span class="badge bg-soft-success text-success rounded-pill"><span class="legend-indicator bg-success"></span>"Completed"</span></p>
+
+                        <span class="small text-muted text-uppercase">Today</span>
+                    </div>
+                </div>
+            </li>
+            <!-- End Step Item -->
+
+            <!-- Step Item -->
+            <li class="step-item">
+                <div class="step-content-wrapper">
+                    <div class="step-avatar">
+                        <img alt="Image Description" class="step-avatar-img" src="../assets/img/160x160/img3.jpg">
+                    </div>
+
+                    <div class="step-content">
+                        <h5 class="h5 mb-1">Crane</h5>
+
+                        <p class="fs-5 mb-1">Added 5 card to <a href="#">Payments</a></p>
+
+                        <ul class="list-group list-group-sm">
+                            <li class="list-group-item list-group-item-light">
+                                <div class="row gx-1">
+                                    <div class="col">
+                                        <img alt="Image Description" class="img-fluid rounded" src="../assets/svg/components/card-1.svg">
+                                    </div>
+                                    <div class="col">
+                                        <img alt="Image Description" class="img-fluid rounded" src="../assets/svg/components/card-2.svg">
+                                    </div>
+                                    <div class="col">
+                                        <img alt="Image Description" class="img-fluid rounded" src="../assets/svg/components/card-3.svg">
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <div class="text-center">
+                                            <a href="#">+2</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <span class="small text-muted text-uppercase">May 12</span>
+                    </div>
+                </div>
+            </li>
+            <!-- End Step Item -->
+
+            <!-- Step Item -->
+            <li class="step-item">
+                <div class="step-content-wrapper">
+                    <span class="step-icon step-icon-soft-info">D</span>
+
+                    <div class="step-content">
+                        <h5 class="mb-1">David Lidell</h5>
+
+                        <p class="fs-5 mb-1">Added a new member to Front Dashboard</p>
+
+                        <span class="small text-muted text-uppercase">May 15</span>
+                    </div>
+                </div>
+            </li>
+            <!-- End Step Item -->
+
+            <!-- Step Item -->
+            <li class="step-item">
+                <div class="step-content-wrapper">
+                    <div class="step-avatar">
+                        <img alt="Image Description" class="step-avatar-img" src="../assets/img/160x160/img7.jpg">
+                    </div>
+
+                    <div class="step-content">
+                        <h5 class="mb-1">Rachel King</h5>
+
+                        <p class="fs-5 mb-1">Marked <a class="text-uppercase" href="#"><i class="bi-journal-bookmark-fill"></i> Fr-3</a> as <span class="badge bg-soft-success text-success rounded-pill"><span class="legend-indicator bg-success"></span>"Completed"</span></p>
+
+                        <span class="small text-muted text-uppercase">Apr 29</span>
+                    </div>
+                </div>
+            </li>
+            <!-- End Step Item -->
+
+            <!-- Step Item -->
+            <li class="step-item">
+                <div class="step-content-wrapper">
+                    <div class="step-avatar">
+                        <img alt="Image Description" class="step-avatar-img" src="../assets/img/160x160/img5.jpg">
+                    </div>
+
+                    <div class="step-content">
+                        <h5 class="mb-1">Finch Hoot</h5>
+
+                        <p class="fs-5 mb-1">Earned a "Top endorsed" <i class="bi-patch-check-fill text-primary"></i> badge</p>
+
+                        <span class="small text-muted text-uppercase">Apr 06</span>
+                    </div>
+                </div>
+            </li>
+            <!-- End Step Item -->
+
+            <!-- Step Item -->
+            <li class="step-item">
+                <div class="step-content-wrapper">
+            <span class="step-icon step-icon-soft-primary">
+              <i class="bi-person-fill"></i>
+            </span>
+
+                    <div class="step-content">
+                        <h5 class="mb-1">Project status updated</h5>
+
+                        <p class="fs-5 mb-1">Marked <a class="text-uppercase" href="#"><i class="bi-journal-bookmark-fill"></i> Fr-3</a> as <span class="badge bg-soft-primary text-primary rounded-pill"><span class="legend-indicator bg-primary"></span>"In progress"</span></p>
+
+                        <span class="small text-muted text-uppercase">Feb 10</span>
+                    </div>
+                </div>
+            </li>
+            <!-- End Step Item -->
+        </ul>
+        <!-- End Step -->
+
+        <div class="d-grid">
+            <a class="btn btn-white" href="javascript:;">View all <i class="bi-chevron-right"></i></a>
+        </div>
+    </div>
+</div>
+<!-- End Activity -->
+
+<!-- Welcome Message -->
+<div aria-hidden="true" class="modal fade" id="welcomeMessageModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="modal-close">
+                <button aria-label="Close" class="btn btn-ghost-secondary btn-icon btn-sm" data-bs-dismiss="modal" type="button">
+                    <i class="bi-x-lg"></i>
+                </button>
+            </div>
+            <!-- End Header -->
+
+            <!-- Body -->
+            <div class="modal-body p-sm-5">
+                <div class="text-center">
+                    <div class="w-75 w-sm-50 mx-auto mb-4">
+                        <img alt="Image Description" class="img-fluid" data-hs-theme-appearance="default" src="../assets/svg/illustrations/oc-collaboration.svg">
+                        <img alt="Image Description" class="img-fluid" data-hs-theme-appearance="dark" src="../assets/svg/illustrations-light/oc-collaboration.svg">
+                    </div>
+
+                    <h4 class="h1">Welcome to Front</h4>
+
+                    <p>We're happy to see you in our community.</p>
+                </div>
+            </div>
+            <!-- End Body -->
+
+            <!-- Footer -->
+            <div class="modal-footer d-block text-center py-sm-5">
+                <small class="text-cap text-muted">Trusted by the world's best teams</small>
+
+                <div class="w-85 mx-auto">
+                    <div class="row justify-content-between">
+                        <div class="col">
+                            <img alt="Image Description" class="img-fluid" src="../assets/svg/brands/gitlab-gray.svg">
+                        </div>
+                        <div class="col">
+                            <img alt="Image Description" class="img-fluid" src="../assets/svg/brands/fitbit-gray.svg">
+                        </div>
+                        <div class="col">
+                            <img alt="Image Description" class="img-fluid" src="../assets/svg/brands/flow-xo-gray.svg">
+                        </div>
+                        <div class="col">
+                            <img alt="Image Description" class="img-fluid" src="../assets/svg/brands/layar-gray.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Footer -->
+        </div>
+    </div>
 </div>
 
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container">
-        <span class="text-muted">Footer content here.</span>
-    </div>
-</footer>
+<!-- End Welcome Message -->
+<!-- ========== END SECONDARY CONTENTS ========== -->
+
+
+
+
+
+<!-- JS Implementing Plugins -->
+<script th:src="@{/assets/js/vendor.min.js}"></script>
+
+<!-- JS Front -->
+<script th:src="@{/assets/js/theme.min.js}"></script>
+
+<!-- JS Plugins Init. -->
+<script>
+    (function() {
+      // INITIALIZATION OF NAVBAR VERTICAL ASIDE
+      // =======================================================
+      new HSSideNav('.js-navbar-vertical-aside').init()
+
+
+      // INITIALIZATION OF BOOTSTRAP DROPDOWN
+      // =======================================================
+      HSBsDropdown.init()
+
+
+      // INITIALIZATION OF FORM SEARCH
+      // =======================================================
+      new HSFormSearch('.js-form-search')
+    })()
+</script>
+
+<!-- Style Switcher JS -->
+<script>
+    (function () {
+      // STYLE SWITCHER
+      // =======================================================
+      const $dropdownBtn = document.getElementById('selectThemeDropdown') // Dropdowon trigger
+      const $variants = document.querySelectorAll(`[aria-labelledby="selectThemeDropdown"] [data-icon]`) // All items of the dropdown
+
+      // Function to set active style in the dorpdown menu and set icon for dropdown trigger
+      const setActiveStyle = function () {
+        $variants.forEach($item => {
+          if ($item.getAttribute('data-value') === HSThemeAppearance.getOriginalAppearance()) {
+            $dropdownBtn.innerHTML = `<i class="${$item.getAttribute('data-icon')}" />`
+            return $item.classList.add('active')
+          }
+
+          $item.classList.remove('active')
+        })
+      }
+
+      // Add a click event to all items of the dropdown to set the style
+      $variants.forEach(function ($item) {
+        $item.addEventListener('click', function () {
+          HSThemeAppearance.setAppearance($item.getAttribute('data-value'))
+        })
+      })
+
+      // Call the setActiveStyle on load page
+      setActiveStyle()
+
+      // Add event listener on change style to call the setActiveStyle function
+      window.addEventListener('on-hs-appearance-change', function () {
+        setActiveStyle()
+      })
+    })()
+</script>
+
 </body>
 </html>

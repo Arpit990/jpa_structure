@@ -12,20 +12,21 @@
   <!-- CSS Front Template -->
   <link rel="stylesheet" th:href="@{/assets/css/theme.minc619.css?v=1.0}">
 
-  <link rel="preload" th:href="@{/assets/css/theme.min.css}" data-hs-appearance="default" as="style">
-  <link rel="preload" th:href="@{/assets/css/theme-dark.min.css}" data-hs-appearance="dark" as="style">
-
+  <link th:href="@{/assets/css/theme.min.css}" rel="stylesheet" data-hs-appearance="default">
   <link th:href="@{/assets/css/styles.css}" rel="stylesheet">
 </head>
 <body class="d-flex align-items-center min-h-100">
 
-<script th:src="@{/assets/js/hs.theme-appearance.js}"></script>
-
-<!-- ========== MAIN CONTENT ========== -->
 <main id="content" role="main" class="main pt-0">
   <!-- Content -->
   <div class="container-fluid px-3">
     <div class="row">
+
+      <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center min-vh-lg-100 position-relative bg-light px-0">
+
+      </div>
+      <!-- End Col -->
+
       <div class="col-lg-6 d-flex justify-content-center align-items-center min-vh-lg-100">
         <div class="w-100 content-space-t-4 content-space-t-lg-2 content-space-b-1" style="max-width: 25rem;">
           <!-- Form -->
@@ -98,48 +99,23 @@
         </div>
       </div>
       <!-- End Col -->
-
-      <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center min-vh-lg-100 position-relative bg-light px-0">
-
-      </div>
-      <!-- End Col -->
     </div>
     <!-- End Row -->
   </div>
   <!-- End Content -->
 </main>
-<!-- ========== END MAIN CONTENT ========== -->
 
 <!-- JS Implementing Plugins -->
 <script th:src="@{/assets/js/vendor.min.js}"></script>
-
-<!-- JS Front -->
-<script th:src="@{/assets/js/theme.min.js}"></script>
 
 <!-- JS Plugins Init. -->
 <script>
   (function() {
     window.onload = function () {
-      // INITIALIZATION OF BOOTSTRAP VALIDATION
-      // =======================================================
-      HSBsValidation.init('.js-validate', {
-        onSubmit: data => {
-          data.event.preventDefault()
-          alert('Submited')
-        }
-      })
-
-
-      // INITIALIZATION OF TOGGLE PASSWORD
-      // =======================================================
       new HSTogglePassword('.js-toggle-password')
-
-
-      // INITIALIZATION OF SELECT
-      // =======================================================
       HSCore.components.HSTomSelect.init('.js-select')
     }
-  })()
+  })();
 </script>
 </body>
 </html>

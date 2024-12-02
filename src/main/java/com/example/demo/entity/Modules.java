@@ -7,12 +7,12 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "users")
-public class User extends BaseEntity {
+@Table(name = "modules")
+public class Modules extends BaseEntity {
     @Id
     @GeneratedValue
     private UUID id;
 
     private String name;
-    private String email;
+    private String description;
 }
