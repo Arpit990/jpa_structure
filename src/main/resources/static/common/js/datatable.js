@@ -146,7 +146,6 @@ function BindDataTable({
     });
     */
 
-
     // Return the DataTable instance
     return dataTable;
 }

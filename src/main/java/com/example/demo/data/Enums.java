@@ -16,4 +16,3 @@ public class Enums {
         RETRIEVE // Note: Corrected spelling from "Retrive" to "Retrieve"
     }
 }
-

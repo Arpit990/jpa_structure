@@ -1,7 +1,11 @@
 package com.example.demo.controller;
 
+import com.example.demo.data.GridResult;
+import com.example.demo.data.GridSearch;
 import com.example.demo.entity.User;
 import com.example.demo.repository.IUserRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +23,26 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/list")
-    public String listUsers(Model model) {
-        List<User> users = userRepository.getAll();
-        System.out.println(users);
-        model.addAttribute("users", users);
+    @GetMapping("/userUrl")
+    public String userUrl(Model model) {
         return "user";
+    }
+
+    @GetMapping("/getUsersList")
+    public ResponseEntity<GridResult> getUsers(GridSearch gridSearches) {
+        GridSearch gridSearch = new GridSearch();
+        gridSearch.setDraw(1);
+        gridSearch.setStart(0);
+        gridSearch.setLength(10);
+        gridSearch.setSearch("arpit");
+        gridSearch.setOrder("name");
+        gridSearch.setOrderDir("asc");
+        gridSearch.setSearchColumn("name");
+        gridSearch.setSearchType("string");
+        gridSearch.setSearchValue("ar");
+
+        GridResult gridResult = userRepository.getGridResult(gridSearch);
+        return new ResponseEntity<>(gridResult, HttpStatus.OK);
     }
 
     @PostMapping
