@@ -28,25 +28,15 @@ public class UserController {
         return "user";
     }
 
-    @GetMapping("/getUsersList")
-    public ResponseEntity<GridResult> getUsers(GridSearch gridSearches) {
-        GridSearch gridSearch = new GridSearch();
-        gridSearch.setDraw(1);
-        gridSearch.setStart(0);
-        gridSearch.setLength(10);
-        gridSearch.setSearch("arpit");
-        gridSearch.setOrder("name");
-        gridSearch.setOrderDir("asc");
-        gridSearch.setSearchColumn("name");
-        gridSearch.setSearchType("string");
-        gridSearch.setSearchValue("ar");
-
+    /*@GetMapping("/getUsersList")
+    public ResponseEntity<GridResult> getUsers(GridSearch gridSearch) {
+        System.out.println(gridSearch);
         GridResult gridResult = userRepository.getGridResult(gridSearch);
         return new ResponseEntity<>(gridResult, HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping
-    public String addUser (User user) {
+    public String addUser(User user) {
         userRepository.save(user);
         return "redirect:/users/list";
     }

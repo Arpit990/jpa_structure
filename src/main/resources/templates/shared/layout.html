@@ -850,10 +850,13 @@ return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16)
 <!-- JS Front -->
 <script th:src="@{/assets/js/theme.min.js}"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
 <!--<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>-->
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
 
 <script th:src="@{/common/js/datatable.js}"></script>
+
 <section layout:fragment="script">
 </section>
 

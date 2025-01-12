@@ -2,14 +2,14 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.User;
 import com.example.demo.generic.BaseRepository;
+import com.example.demo.generic.IBaseRepository;
+import org.jinq.jpa.JinqJPAStreamProvider;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 @Repository
-public class UserRepository extends BaseRepository<User, UUID> implements IUserRepository {
+public class UserRepository extends BaseRepository<User, Long> implements IUserRepository {
 
-    public UserRepository() {
-        super(User.class);
+    public UserRepository(JinqJPAStreamProvider jinqProvider) {
+        super(jinqProvider, User.class);
     }
 }
